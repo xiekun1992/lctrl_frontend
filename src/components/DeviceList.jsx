@@ -13,6 +13,7 @@ import {
 import { PlusOutlined } from "@ant-design/icons";
 import React, { useState, useEffect } from "react";
 import laptopIcon from "../images/ico2068.ico";
+import Upload from "antd/es/upload/Upload";
 
 const DeviceList = () => {
   const [remotes, setRemotes] = useState([]);
@@ -122,6 +123,7 @@ const DeviceList = () => {
                   <div>{item.ip}</div>
                   <div>{item.screen_size.join(" x ")}</div>
                   <Space
+                    align="start"
                     style={{
                       marginBottom: 8,
                     }}
@@ -168,13 +170,13 @@ const DeviceList = () => {
                     >
                       Wake On LAN
                     </Button>
-                    <Button
-                      onClick={() => {
-                        // setRemotePeer("RIGHT", item);
-                      }}
+                    <Upload
+                      disabled={peer !== item}
+                      action={`http://${peer?.ip}:8000/file`}
+                      multiple
                     >
-                      Transfer Files
-                    </Button>
+                      <Button disabled={peer !== item}>Transfer Files</Button>
+                    </Upload>
                   </Space>
                 </div>
               }

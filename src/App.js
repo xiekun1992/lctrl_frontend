@@ -1,7 +1,6 @@
 // import "./App.css";
 // import { useEffect, useState } from "react";
 import DeviceList from "./components/DeviceList";
-import ControlPane from "./components/ControlPane";
 import DeviceDetail from "./components/DeviceDetail";
 
 function App() {
