@@ -15,7 +15,7 @@ const DeviceDetail = () => {
 
   return (
     <Card
-      style={{ width: 300, marginTop: 16 }}
+      style={{ width: "100%", border: "none" }}
       actions={
         [
           // <SettingOutlined key="setting" />,

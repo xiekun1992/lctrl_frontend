@@ -2,6 +2,7 @@
 // import { useEffect, useState } from "react";
 import DeviceList from "./components/DeviceList";
 import ControlPane from "./components/ControlPane";
+import DeviceDetail from "./components/DeviceDetail";
 
 function App() {
   // useEffect(() => {
@@ -24,14 +25,18 @@ function App() {
     >
       <aside
         style={{
-          width: "400px",
+          width: "300px",
           borderRight: "1px solid",
         }}
       >
-        <DeviceList />
+        <DeviceDetail />
       </aside>
-      <main>
-        <ControlPane />
+      <main
+        style={{
+          width: "calc(100vw - 300px)",
+        }}
+      >
+        <DeviceList />
       </main>
     </div>
   );

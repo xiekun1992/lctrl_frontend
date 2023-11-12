@@ -134,7 +134,7 @@ const DeviceList = () => {
                         setRemotePeer("LEFT", item);
                       }}
                     >
-                      LEFT
+                      Left
                     </Button>
                     <Button
                       type={
@@ -146,7 +146,7 @@ const DeviceList = () => {
                         setRemotePeer("RIGHT", item);
                       }}
                     >
-                      RIGHT
+                      Right
                     </Button>
                     <Popconfirm
                       title="Delete the remote"
@@ -157,10 +157,8 @@ const DeviceList = () => {
                       okText="Yes"
                       cancelText="No"
                     >
-                      <Button danger>DELETE</Button>
+                      <Button danger>Delete</Button>
                     </Popconfirm>
-                  </Space>
-                  <Space>
                     <Button
                       disabled
                       // type={item === peer ? "primary" : "default"}
@@ -169,6 +167,13 @@ const DeviceList = () => {
                       }}
                     >
                       Wake On LAN
+                    </Button>
+                    <Button
+                      onClick={() => {
+                        // setRemotePeer("RIGHT", item);
+                      }}
+                    >
+                      Transfer Files
                     </Button>
                   </Space>
                 </div>
