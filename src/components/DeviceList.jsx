@@ -23,7 +23,7 @@ const DeviceList = () => {
   const [form] = Form.useForm();
 
   const getList = () => {
-    fetch("http://127.0.0.1:8000/api/remotes")
+    fetch("http://127.0.0.1:18000/api/remotes")
       .then((res) => res.json())
       .then((_remotes) => {
         setRemotes(_remotes);
@@ -31,7 +31,7 @@ const DeviceList = () => {
   };
 
   const getRemotePeer = () => {
-    fetch("http://127.0.0.1:8000/api/remote_peer")
+    fetch("http://127.0.0.1:18000/api/remote_peer")
       .then((res) => res.json())
       .then((_peer) => {
         const remote = remotes.find((item) => item.ip === _peer?.remote?.ip);
@@ -52,7 +52,7 @@ const DeviceList = () => {
 
   const setRemotePeer = (side, remote) => {
     fetch(
-      `http://127.0.0.1:8000/api/remote_peer?side=${side}&ip=${remote.ip}`,
+      `http://127.0.0.1:18000/api/remote_peer?side=${side}&ip=${remote.ip}`,
       {
         method: "put",
       }
@@ -66,7 +66,7 @@ const DeviceList = () => {
   };
 
   const clearRemotePeer = () => {
-    fetch(`http://127.0.0.1:8000/api/remote_peer`, {
+    fetch(`http://127.0.0.1:18000/api/remote_peer`, {
       method: "delete",
     })
       .then((res) => res.json())
@@ -77,7 +77,7 @@ const DeviceList = () => {
   };
 
   const deleteRemotePeer = (remote) => {
-    fetch(`http://127.0.0.1:8000/api/remotes?ip=${remote.ip}`, {
+    fetch(`http://127.0.0.1:18000/api/remotes?ip=${remote.ip}`, {
       method: "delete",
     })
       .then((res) => res.json())
@@ -203,7 +203,7 @@ const DeviceList = () => {
           }}
           onFinish={(values) => {
             console.log(values);
-            fetch("http://127.0.0.1:8000/api/remotes", {
+            fetch("http://127.0.0.1:18000/api/remotes", {
               method: "post",
               headers: {
                 "Content-Type": "application/json",

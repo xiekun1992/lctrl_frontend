@@ -6,7 +6,7 @@ const DeviceDetail = () => {
   const [self, setSelf] = useState({});
 
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/api/device")
+    fetch("http://127.0.0.1:18000/api/device")
       .then((res) => res.json())
       .then((_self) => {
         setSelf(_self);
