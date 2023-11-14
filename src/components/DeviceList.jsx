@@ -175,7 +175,7 @@ const DeviceList = () => {
                     </Button>
                     <Upload
                       disabled={peer !== item}
-                      action={`http://${peer?.ip}:8000/file`}
+                      action={`http://${peer?.ip}:18000/api/file`}
                       multiple
                     >
                       <Button disabled={peer !== item}>Transfer Files</Button>
@@ -220,6 +220,8 @@ const DeviceList = () => {
               .then((res) => res.json())
               .then(() => {
                 getList();
+                setOpen(false);
+                form.resetFields();
               });
           }}
         >
