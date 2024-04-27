@@ -86,6 +86,16 @@ const DeviceList = () => {
       });
   };
 
+  const wakeRemotePeer = (side, remote) => {
+    fetch(`http://127.0.0.1:18000/api/launch?ip=${remote.ip}&side=${side}`, {
+      method: "post",
+    })
+      .then((res) => res.json())
+      .then(() => {
+        getList();
+      });
+  };
+
   return (
     <div>
       <div
@@ -165,9 +175,10 @@ const DeviceList = () => {
                       <Button danger>Delete</Button>
                     </Popconfirm>
                     <Button
-                      disabled
-                      // type={item === peer ? "primary" : "default"}
+                      // disabled
+                      type={item === peer ? "primary" : "default"}
                       onClick={() => {
+                        wakeRemotePeer(side, item);
                         // setRemotePeer("RIGHT", item);
                       }}
                     >
