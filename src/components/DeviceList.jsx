@@ -134,7 +134,9 @@ const DeviceList = () => {
               description={
                 <div>
                   <div>{item.ip}</div>
-                  <div>{item.screen_size.join(" x ")}</div>
+                  <div>{`${item.screen_size.right - item.screen_size.left} x ${
+                    item.screen_size.bottom - item.screen_size.top
+                  }`}</div>
                   <Space
                     align="start"
                     style={{
