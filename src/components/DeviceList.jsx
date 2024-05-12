@@ -9,6 +9,7 @@ import {
   Input,
   Flex,
   Popconfirm,
+  Tag,
 } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import React, { useState, useEffect } from "react";
@@ -16,19 +17,12 @@ import laptopIcon from "../images/ico2068.ico";
 import Upload from "antd/es/upload/Upload";
 
 const DeviceList = () => {
+  const [remoteAvail, setRemoteAvail] = useState(false);
   const [remotes, setRemotes] = useState([]);
   const [peer, setPeer] = useState(null);
   const [side, setSide] = useState("");
   const [open, setOpen] = useState(false);
   const [form] = Form.useForm();
-
-  const getList = () => {
-    fetch("http://127.0.0.1:18000/api/remotes")
-      .then((res) => res.json())
-      .then((_remotes) => {
-        setRemotes(_remotes);
-      });
-  };
 
   const getRemotePeer = () => {
     fetch("http://127.0.0.1:18000/api/remote_peer")
@@ -38,17 +32,30 @@ const DeviceList = () => {
         if (remote) {
           setPeer(remote);
           setSide(_peer?.side);
+          setRemoteAvail(true);
+        } else {
+          setRemoteAvail(false);
+          setRemotes([...remotes, _peer.remote]);
+          setPeer(_peer.remote);
+          setSide(_peer?.side);
         }
+      });
+  };
+
+  const getList = () => {
+    fetch("http://127.0.0.1:18000/api/remotes")
+      .then((res) => res.json())
+      .then((_remotes) => {
+        setRemotes(_remotes);
+      })
+      .then(() => {
+        getRemotePeer();
       });
   };
 
   useEffect(() => {
     getList();
   }, []);
-
-  useEffect(() => {
-    getRemotePeer();
-  }, [remotes]);
 
   const setRemotePeer = (side, remote) => {
     fetch(
@@ -130,7 +137,16 @@ const DeviceList = () => {
           <List.Item>
             <List.Item.Meta
               avatar={<Avatar shape="square" size={64} src={laptopIcon} />}
-              title={<span>{item.hostname}</span>}
+              title={
+                <div>
+                  <span>{item.hostname}</span>
+                  {!remoteAvail && (
+                    <Tag color="error" style={{ marginLeft: "1em" }}>
+                      离线
+                    </Tag>
+                  )}
+                </div>
+              }
               description={
                 <div>
                   <div>{item.ip}</div>

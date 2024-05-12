@@ -29,18 +29,23 @@ const DeviceDetail = () => {
           avatar={<Avatar shape="square" size={64} src={laptopIcon} />}
           title={<span>{self.hostname}</span>}
           description={
-            <div>
-              {self.ifs?.map((item) => {
-                return (
-                  <div key={item.mac_addr}>
-                    <div>{item.addr}</div>
-                    <div>{item.netmask}</div>
-                    <div>{item.broadcast_addr}</div>
-                    <div>{item.mac_addr}</div>
-                  </div>
-                );
-              })}
-            </div>
+            <>
+              {/* <div>{`${self.screen_size.right - self.screen_size.left} x ${
+                self.screen_size.bottom - self.screen_size.top
+              }`}</div> */}
+              <div>
+                {self.ifs?.map((item) => {
+                  return (
+                    <div key={item.mac_addr} style={{ marginBottom: 10 }}>
+                      <div>{item.addr}</div>
+                      <div>{item.netmask}</div>
+                      <div>{item.broadcast_addr}</div>
+                      <div>{item.mac_addr}</div>
+                    </div>
+                  );
+                })}
+              </div>
+            </>
           }
         />
       </Skeleton>
