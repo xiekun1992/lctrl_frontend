@@ -28,17 +28,8 @@ const DeviceList = () => {
     fetch("http://127.0.0.1:18000/api/remote_peer")
       .then((res) => res.json())
       .then((_peer) => {
-        const remote = remotes.find((item) => item.ip === _peer?.remote?.ip);
-        if (remote) {
-          setPeer(remote);
-          setSide(_peer?.side);
-          setRemoteAvail(true);
-        } else {
-          setRemoteAvail(false);
-          setRemotes([...remotes, _peer.remote]);
-          setPeer(_peer.remote);
-          setSide(_peer?.side);
-        }
+        setSide(_peer?.side);
+        setPeer(_peer?.remote);
       });
   };
 
@@ -46,15 +37,29 @@ const DeviceList = () => {
     fetch("http://127.0.0.1:18000/api/remotes")
       .then((res) => res.json())
       .then((_remotes) => {
-        setRemotes(_remotes);
-      })
-      .then(() => {
-        getRemotePeer();
+        const remote = _remotes.find((item) => item.ip === peer?.ip);
+        if (remote) {
+          setRemoteAvail(true);
+          setRemotes(_remotes);
+        } else {
+          setRemoteAvail(false);
+          if (peer) {
+            _remotes.push(peer);
+            setRemotes(_remotes);
+          }
+        }
       });
   };
 
   useEffect(() => {
-    getList();
+    if (peer) {
+      getList();
+    }
+  }, [peer]);
+
+  useEffect(() => {
+    // getList();
+    getRemotePeer();
   }, []);
 
   const setRemotePeer = (side, remote) => {
@@ -161,7 +166,9 @@ const DeviceList = () => {
                   >
                     <Button
                       type={
-                        item === peer && side === "LEFT" ? "primary" : "default"
+                        item?.ip === peer?.ip && side === "LEFT"
+                          ? "primary"
+                          : "default"
                       }
                       onClick={() => {
                         setRemotePeer("LEFT", item);
@@ -171,7 +178,7 @@ const DeviceList = () => {
                     </Button>
                     <Button
                       type={
-                        item === peer && side === "RIGHT"
+                        item?.ip === peer?.ip && side === "RIGHT"
                           ? "primary"
                           : "default"
                       }
@@ -194,7 +201,7 @@ const DeviceList = () => {
                     </Popconfirm>
                     <Button
                       // disabled
-                      type={item === peer ? "primary" : "default"}
+                      type={item?.ip === peer?.ip ? "primary" : "default"}
                       onClick={() => {
                         wakeRemotePeer(side, item);
                         // setRemotePeer("RIGHT", item);
@@ -202,12 +209,16 @@ const DeviceList = () => {
                     >
                       Wake On LAN
                     </Button>
+                    <Button>Reboot</Button>
+                    <Button>Shutdown</Button>
                     <Upload
-                      disabled={peer !== item}
+                      disabled={peer?.ip !== item?.ip}
                       action={`http://${peer?.ip}:18000/api/file`}
                       multiple
                     >
-                      <Button disabled={peer !== item}>Transfer Files</Button>
+                      <Button disabled={peer?.ip !== item?.ip}>
+                        Transfer Files
+                      </Button>
                     </Upload>
                   </Space>
                 </div>
