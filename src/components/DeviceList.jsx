@@ -209,8 +209,6 @@ const DeviceList = () => {
                     >
                       Wake On LAN
                     </Button>
-                    <Button>Reboot</Button>
-                    <Button>Shutdown</Button>
                     <Upload
                       disabled={peer?.ip !== item?.ip}
                       action={`http://${peer?.ip}:18000/api/file`}
