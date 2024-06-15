@@ -12,7 +12,7 @@ import {
   Tag,
 } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import laptopIcon from "../images/ico2068.ico";
 import Upload from "antd/es/upload/Upload";
 
@@ -33,7 +33,7 @@ const DeviceList = () => {
       });
   };
 
-  const getList = () => {
+  const getList = useCallback(() => {
     fetch("http://127.0.0.1:18000/api/remotes")
       .then((res) => res.json())
       .then((_remotes) => {
@@ -45,17 +45,15 @@ const DeviceList = () => {
           setRemoteAvail(false);
           if (peer) {
             _remotes.push(peer);
-            setRemotes(_remotes);
           }
+          setRemotes(_remotes);
         }
       });
-  };
+  }, [peer]);
 
   useEffect(() => {
-    if (peer) {
-      getList();
-    }
-  }, [peer]);
+    getList();
+  }, [getList, peer]);
 
   useEffect(() => {
     // getList();
