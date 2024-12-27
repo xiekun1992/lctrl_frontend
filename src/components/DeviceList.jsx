@@ -36,7 +36,8 @@ const DeviceList = () => {
   const getList = useCallback(() => {
     fetch("http://127.0.0.1:18000/api/remotes")
       .then((res) => res.json())
-      .then((_remotes) => {
+      .then(({ manual_remotes, remotes }) => {
+        const _remotes = [...manual_remotes, ...remotes];
         const remote = _remotes.find((item) => item.ip === peer?.ip);
         if (remote) {
           setRemoteAvail(true);
@@ -239,19 +240,19 @@ const DeviceList = () => {
           }}
           onFinish={(values) => {
             console.log(values);
-            fetch("http://127.0.0.1:18000/api/remotes", {
-              method: "post",
+            fetch(`http://127.0.0.1:18000/api/manual_peer?addr=${values.ip}`, {
+              method: "put",
               headers: {
                 "Content-Type": "application/json",
               },
-              body: JSON.stringify({
-                ip: values.ip,
-                hostname: values.hostname,
-                screen_size: [
-                  Number(values.screen_size_x),
-                  Number(values.screen_size_y),
-                ],
-              }),
+              // body: JSON.stringify({
+              //   ip: values.ip,
+              //   hostname: values.hostname,
+              //   screen_size: [
+              //     Number(values.screen_size_x),
+              //     Number(values.screen_size_y),
+              //   ],
+              // }),
             })
               .then((res) => res.json())
               .then(() => {
@@ -261,17 +262,17 @@ const DeviceList = () => {
               });
           }}
         >
-          <Form.Item
+          {/* <Form.Item
             label="hostname"
             name="hostname"
             rules={[{ required: true }]}
           >
             <Input />
-          </Form.Item>
+          </Form.Item> */}
           <Form.Item label="ip" name="ip" rules={[{ required: true }]}>
             <Input />
           </Form.Item>
-          <Form.Item
+          {/* <Form.Item
             label="screen size x"
             name="screen_size_x"
             rules={[{ required: true }]}
@@ -284,7 +285,7 @@ const DeviceList = () => {
             rules={[{ required: true }]}
           >
             <Input style={{ width: 100 }} />
-          </Form.Item>
+          </Form.Item> */}
           <Form.Item style={{ marginBottom: 0 }}>
             <Flex justify="right">
               <Space>
