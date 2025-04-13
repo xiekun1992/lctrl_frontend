@@ -3,6 +3,9 @@ import { create } from "zustand";
 const useStore = create((set) => ({
   remotes: [],
   curDevice: {},
+  settings: {
+    autoDiscover: true,
+  },
   setRemotes(remotes) {
     return set((state) => {
       return {
@@ -14,6 +17,13 @@ const useStore = create((set) => ({
     return set((state) => {
       return {
         curDevice: device,
+      };
+    });
+  },
+  setSettings(settings) {
+    return set((state) => {
+      return {
+        settings,
       };
     });
   },

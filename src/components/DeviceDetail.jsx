@@ -4,13 +4,16 @@ import laptopIcon from "../images/ico2068.ico";
 import useStore from "../store/index.ts";
 
 const DeviceDetail = () => {
-  const { curDevice, setCurDevice } = useStore();
+  const { curDevice, setCurDevice, settings, setSettings } = useStore();
 
   useEffect(() => {
     fetch("http://127.0.0.1:18000/api/device")
       .then((res) => res.json())
       .then((_self) => {
         setCurDevice(_self);
+        setSettings({
+          autoDiscover: _self.auto_discover,
+        });
       });
   }, []);
 
@@ -48,7 +51,7 @@ const DeviceDetail = () => {
               </div>
               <div>
                 <Switch
-                  checked={curDevice.auto_discover}
+                  checked={settings.autoDiscover}
                   checkedChildren={<div>Discover Enabled</div>}
                   unCheckedChildren={<div>Discover Disabled</div>}
                   onChange={(checked) => {
@@ -60,7 +63,12 @@ const DeviceDetail = () => {
                         //   "Content-Type": "application/json",
                         // },
                       }
-                    ).then(() => {});
+                    ).then(() => {
+                      setSettings({
+                        ...settings,
+                        autoDiscover: checked,
+                      });
+                    });
                   }}
                 >
                   Auto Discover
