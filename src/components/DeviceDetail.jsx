@@ -1,15 +1,16 @@
-import { Card, Skeleton, Avatar } from "antd";
+import { Card, Skeleton, Switch, Avatar } from "antd";
 import React, { useState, useEffect } from "react";
 import laptopIcon from "../images/ico2068.ico";
+import useStore from "../store/index.ts";
 
 const DeviceDetail = () => {
-  const [self, setSelf] = useState({});
+  const { curDevice, setCurDevice } = useStore();
 
   useEffect(() => {
     fetch("http://127.0.0.1:18000/api/device")
       .then((res) => res.json())
       .then((_self) => {
-        setSelf(_self);
+        setCurDevice(_self);
       });
   }, []);
 
@@ -27,14 +28,14 @@ const DeviceDetail = () => {
       <Skeleton loading={false} avatar active>
         <Card.Meta
           avatar={<Avatar shape="square" size={64} src={laptopIcon} />}
-          title={<span>{self.hostname}</span>}
+          title={<span>{curDevice.hostname}</span>}
           description={
             <>
               {/* <div>{`${self.screen_size.right - self.screen_size.left} x ${
                 self.screen_size.bottom - self.screen_size.top
               }`}</div> */}
               <div>
-                {self.ifs?.map((item) => {
+                {curDevice.ifs?.map((item) => {
                   return (
                     <div key={item.mac_addr} style={{ marginBottom: 10 }}>
                       <div>{item.addr}</div>
@@ -44,6 +45,26 @@ const DeviceDetail = () => {
                     </div>
                   );
                 })}
+              </div>
+              <div>
+                <Switch
+                  checked={curDevice.auto_discover}
+                  checkedChildren={<div>Discover Enabled</div>}
+                  unCheckedChildren={<div>Discover Disabled</div>}
+                  onChange={(checked) => {
+                    fetch(
+                      `http://127.0.0.1:18000/api/setting/auto_discover?active=${checked}`,
+                      {
+                        method: "put",
+                        // headers: {
+                        //   "Content-Type": "application/json",
+                        // },
+                      }
+                    ).then(() => {});
+                  }}
+                >
+                  Auto Discover
+                </Switch>
               </div>
             </>
           }

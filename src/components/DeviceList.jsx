@@ -15,10 +15,11 @@ import { PlusOutlined } from "@ant-design/icons";
 import React, { useState, useEffect, useCallback } from "react";
 import laptopIcon from "../images/ico2068.ico";
 import Upload from "antd/es/upload/Upload";
+import useStore from "../store/index.ts";
 
 const DeviceList = () => {
   const [remoteAvail, setRemoteAvail] = useState(false);
-  const [remotes, setRemotes] = useState([]);
+  const { remotes, setRemotes } = useStore();
   const [peer, setPeer] = useState(null);
   const [side, setSide] = useState("");
   const [open, setOpen] = useState(false);
@@ -55,6 +56,19 @@ const DeviceList = () => {
   useEffect(() => {
     getList();
   }, [getList, peer]);
+
+  // useEffect(() => {
+  //   const _remotes = remotes;
+  //   const remote = _remotes.find((item) => item.ip === peer?.ip);
+  //   if (remote) {
+  //     setRemoteAvail(true);
+  //   } else {
+  //     setRemoteAvail(false);
+  //     if (peer) {
+  //       _remotes.push(peer);
+  //     }
+  //   }
+  // }, [remotes, peer]);
 
   useEffect(() => {
     // getList();
@@ -146,7 +160,7 @@ const DeviceList = () => {
                   <span>{item.hostname}</span>
                   {!remoteAvail && (
                     <Tag color="error" style={{ marginLeft: "1em" }}>
-                      离线
+                      Offline
                     </Tag>
                   )}
                 </div>
