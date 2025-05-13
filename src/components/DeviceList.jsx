@@ -173,6 +173,7 @@ const DeviceList = () => {
                   }`}</div>
                   <Space
                     align="start"
+                    wrap
                     style={{
                       marginBottom: 8,
                     }}

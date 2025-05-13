@@ -19,7 +19,7 @@ const DeviceDetail = () => {
 
   return (
     <Card
-      style={{ width: "100%", border: "none" }}
+      style={{ width: "100%", border: "none", borderRadius: 0 }}
       actions={
         [
           // <SettingOutlined key="setting" />,
@@ -37,7 +37,7 @@ const DeviceDetail = () => {
               {/* <div>{`${self.screen_size.right - self.screen_size.left} x ${
                 self.screen_size.bottom - self.screen_size.top
               }`}</div> */}
-              <div>
+              <div style={{ display: "flex", gap: 20 }}>
                 {curDevice.ifs?.map((item) => {
                   return (
                     <div key={item.mac_addr} style={{ marginBottom: 10 }}>
