@@ -21,6 +21,17 @@ const useStore = create((set) => ({
   ],
   settings: {
     autoDiscover: true,
+    screenSetting: { vcoord: [], hcoord: [] },
+  },
+  setPrimaryScreen(screens) {
+    return set((state) => {
+      return {
+        primaryScreen: {
+          ...state.primaryScreen,
+          screens,
+        },
+      };
+    });
   },
   updateRemoteScreens(screens) {
     return set((state) => {

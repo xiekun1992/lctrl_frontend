@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Screens from "./Screens";
 import { Button } from "antd";
+import useStore from "../../store/index.ts";
 
 const rectCross = (r1, r2) => {
   if (r1.x + r1.width / 10 <= r2.x || r1.x >= r2.x + r2.width / 10) {
@@ -32,6 +33,8 @@ const ScreenSetting = ({
       },
     ],
   });
+
+  const { settings, setSettings } = useStore();
 
   const updatePos = (pos, screenObj) => {
     // primaryScreen.reduce();
@@ -203,6 +206,13 @@ const ScreenSetting = ({
       }
     }
     console.log(hcoord, vcoord);
+    setSettings({
+      ...settings,
+      screenSetting: {
+        vcoord,
+        hcoord,
+      },
+    });
 
     if (!hasEdge) {
       setEdge({
@@ -230,6 +240,16 @@ const ScreenSetting = ({
 
     screenObj.pos = pos;
     updateScreens([...remoteScreens]);
+  };
+
+  const updateScreenSetting = () => {
+    fetch(`http://127.0.0.1:18000/api/setting/screens`, {
+      method: "put",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(settings.screenSetting),
+    }).then(() => {});
   };
 
   return (
@@ -273,7 +293,9 @@ const ScreenSetting = ({
           );
         })}
       </div>
-      <Button type="primary">Confirm</Button>
+      <Button type="primary" onClick={updateScreenSetting}>
+        Confirm
+      </Button>
     </div>
   );
 };
