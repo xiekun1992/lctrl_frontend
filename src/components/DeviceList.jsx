@@ -202,6 +202,18 @@ const DeviceList = () => {
                     >
                       Right
                     </Button>
+                    <Button
+                      type={
+                        item?.ip === peer?.ip && side === "TOP"
+                          ? "primary"
+                          : "default"
+                      }
+                      onClick={() => {
+                        setRemotePeer("TOP", item);
+                      }}
+                    >
+                      Top
+                    </Button>
                     <Popconfirm
                       title="Delete the remote"
                       description="Are you sure to delete this remote?"
